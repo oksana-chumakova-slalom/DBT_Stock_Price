@@ -1,0 +1,21 @@
+version: 2
+
+models:
+  - name: stg_inflation
+    description: "Staged inflation (PCE) index data used to calculate real purchasing power."
+    columns:
+      - name: cpi_date
+        description: "The reference date for the inflation metric (usually the first of the month)."
+        tests:
+          - unique
+          - not_null
+          - dbt_utils.at_least_one
+
+      - name: inflation_index_value
+        description: "The raw PCE price index value."
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              min_value: 0
+              inclusive: false
+              description: "The index value must be positive to prevent division errors."

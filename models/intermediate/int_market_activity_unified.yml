@@ -1,0 +1,23 @@
+version: 2
+
+models:
+  - name: int_market_activity_unified
+    description: "The 'Security Master' join. Links daily stock prices to company metadata and SEC CIK identifiers."
+    columns:
+      - name: ticker
+        tests:
+          - not_null
+          - dbt_utils.at_least_one 
+
+      - name: cik
+        tests:
+          - not_null
+
+      - name: trading_date
+        tests:
+          - not_null
+
+    tests:
+      # This stays here because it's a multi-column check, but doesn't use aggregates
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns: [ticker, trading_date]

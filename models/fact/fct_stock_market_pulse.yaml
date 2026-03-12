@@ -1,0 +1,44 @@
+version: 2
+
+models:
+  - name: fct_stock_market_pulse
+    description: "The final analysis table for stock volatility and inflation-adjusted returns."
+    columns:
+      - name: ticker
+        tests:
+          - not_null
+          - dbt_expectations.expect_column_values_to_be_of_type:
+              column_type: varchar
+          - relationships:
+              to: ref('int_market_activity_unified')
+              field: ticker
+
+      - name: trading_date
+        tests:
+          - not_null
+          - dbt_expectations.expect_column_values_to_be_of_type:
+              column_type: date
+
+      - name: nominal_return_pct
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              min_value: -100
+              max_value: 500
+              severity: warn
+          - dbt_expectations.expect_column_values_to_be_of_type:
+              column_type: float
+
+      - name: is_filing_day
+        tests:
+          - not_null
+          - accepted_values:
+              values: [true, false]
+          - dbt_expectations.expect_column_values_to_be_of_type:
+              column_type: boolean
+
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns: [ticker, trading_date]
+      - dbt_expectations.expect_table_columns_to_match_ordered_list:
+          column_list: ["company_name", "ticker", "trading_date", "close_price", "nominal_return_pct", "inflation_index_value", "filing_types", "is_filing_day"]

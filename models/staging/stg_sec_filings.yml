@@ -1,0 +1,26 @@
+version: 2
+
+models:
+  - name: stg_sec_filings
+    description: "SEC filings collapsed to one row per company per day to prevent join fan-out."
+    columns:
+      - name: cik
+        description: "The SEC Central Index Key."
+        tests:
+          - not_null
+
+      - name: filed_date
+        description: "The official filing date."
+        tests:
+          - not_null
+
+      - name: filing_types
+        description: "A concatenated list of all forms filed by this company on this day."
+        tests:
+          - not_null
+
+    tests:
+      # This is the 'Fan-out Guardrail' - it proves your GROUP BY/DISTINCT worked
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns: [cik, filed_date]
+          description: "Ensures only one SEC record per company per day exists before joining to stocks."

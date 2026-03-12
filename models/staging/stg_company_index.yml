@@ -1,0 +1,23 @@
+version: 2
+
+models:
+  - name: stg_company_index
+    description: "Staging model for stock price timeseries data."
+    columns:
+      - name: company_id
+        description: "'Spine' linking Tickers to SEC IDs (Dimension)."
+        data_tests:
+          - unique
+          - not_null
+
+      - name: company_name
+        data_tests:
+          - not_null
+
+      - name: ticker
+        data_tests:
+          - not_null
+
+      - name: cik
+        data_tests:
+          - not_null

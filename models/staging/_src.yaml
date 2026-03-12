@@ -1,0 +1,23 @@
+version: 2
+
+sources:
+  - name: public_data_free
+    database: SNOWFLAKE_PUBLIC_DATA_FREE
+    schema: PUBLIC_DATA_FREE
+    tables:
+      - name: sec_report_index
+        description: "Metadata for SEC filings"
+      - name: company_index
+        description: "Company reference spine"
+      - name: financial_economic_indicators_timeseries
+        description: "Source for CPI and other economic metrics"
+
+  - name: stock_price_timeseries
+    database: snowflake_learning_db
+    schema: dbt_ochumakova
+    tables:
+      - name: stock_price_timeseries
+        description: "Daily stock market prices"
+        freshness:
+          error_after: {count: 24, period: hour}
+        loaded_at_field: '"DATE"::timestamp_ntz'

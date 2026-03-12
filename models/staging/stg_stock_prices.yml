@@ -1,0 +1,33 @@
+version: 2
+
+models:
+  - name: stg_stock_prices
+    description: "Daily closing stock prices. This is the primary fact table for the project."
+    columns:
+      - name: ticker
+        description: "The stock ticker symbol (e.g., AAPL)."
+        tests:
+          - not_null
+
+      - name: trading_date
+        description: "The date of the market close."
+        tests:
+          - not_null
+          - dbt_utils.at_least_one
+          - dbt_utils.expression_is_true:
+              expression: "<= CURRENT_DATE()"
+              description: "Stock prices cannot exist for future dates."
+
+      - name: close_price
+        description: "The daily closing price value."
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              min_value: 0
+              inclusive: false
+              description: "Stock prices must be positive. A zero or negative price indicates a data error."
+
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns: [ticker, trading_date]
+          description: "Ensures there is exactly one price per ticker per day."

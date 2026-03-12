@@ -22,5 +22,6 @@ models:
     tests:
       # This is the 'Fan-out Guardrail' - it proves your GROUP BY/DISTINCT worked
       - dbt_utils.unique_combination_of_columns:
-          combination_of_columns: [cik, filed_date]
+          arguments: # Added for dbt Core 1.9+ compatibility
+            combination_of_columns: [cik, filed_date]
           description: "Ensures only one SEC record per company per day exists before joining to stocks."

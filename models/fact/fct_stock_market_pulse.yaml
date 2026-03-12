@@ -8,37 +8,47 @@ models:
         tests:
           - not_null
           - dbt_expectations.expect_column_values_to_be_of_type:
-              column_type: varchar
+              arguments:
+                column_type: varchar
           - relationships:
-              to: ref('int_market_activity_unified')
-              field: ticker
+              arguments: # Fix for "field" and "to" error
+                to: ref('int_market_activity_unified')
+                field: ticker
 
       - name: trading_date
         tests:
           - not_null
           - dbt_expectations.expect_column_values_to_be_of_type:
-              column_type: date
+              arguments:
+                column_type: date
 
       - name: nominal_return_pct
         tests:
           - not_null
           - dbt_utils.accepted_range:
-              min_value: -100
-              max_value: 500
-              severity: warn
+              arguments:
+                min_value: -100
+                max_value: 500
+              config: # Fix for "severity" error (migrated from top-level to config)
+                severity: warn
           - dbt_expectations.expect_column_values_to_be_of_type:
-              column_type: float
+              arguments:
+                column_type: float
 
       - name: is_filing_day
         tests:
           - not_null
           - accepted_values:
-              values: [true, false]
+              arguments: # Fix for "values" error
+                values: [true, false]
           - dbt_expectations.expect_column_values_to_be_of_type:
-              column_type: boolean
+              arguments:
+                column_type: boolean
 
     tests:
       - dbt_utils.unique_combination_of_columns:
-          combination_of_columns: [ticker, trading_date]
+          arguments:
+            combination_of_columns: [ticker, trading_date]
       - dbt_expectations.expect_table_columns_to_match_ordered_list:
-          column_list: ["company_name", "ticker", "trading_date", "close_price", "nominal_return_pct", "inflation_index_value", "filing_types", "is_filing_day"]
+          arguments:
+            column_list: ["company_name", "ticker", "trading_date", "close_price", "nominal_return_pct", "inflation_index_value", "filing_types", "is_filing_day"]

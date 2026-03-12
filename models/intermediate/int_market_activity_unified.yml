@@ -18,6 +18,7 @@ models:
           - not_null
 
     tests:
-      # This stays here because it's a multi-column check, but doesn't use aggregates
+      # Moved 'combination_of_columns' inside 'arguments' to satisfy dbt 1.9+ requirements
       - dbt_utils.unique_combination_of_columns:
-          combination_of_columns: [ticker, trading_date]
+          arguments:
+            combination_of_columns: [ticker, trading_date]

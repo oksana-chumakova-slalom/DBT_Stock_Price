@@ -1,17 +1,17 @@
 packages:
-  - name: dbt_utils
-    package: dbt-labs/dbt_utils
-    version: 1.1.1
-  - name: codegen
-    package: dbt-labs/codegen
-    version: 0.12.1
-  - name: dbt_expectations
-    package: calogica/dbt_expectations
-    version: 0.10.1
-  - name: elementary
-    package: elementary-data/elementary
-    version: 0.22.1
-  - name: dbt_date
-    package: calogica/dbt_date
-    version: 0.10.1
-sha1_hash: 697b5a487f8247519ddbde100c37f40c324d9347
+- package: dbt-labs/codegen
+  name: codegen
+  version: 0.12.1
+- package: calogica/dbt_date
+  name: dbt_date
+  version: 0.10.1
+- package: calogica/dbt_expectations
+  name: dbt_expectations
+  version: 0.10.1
+- package: dbt-labs/dbt_utils
+  name: dbt_utils
+  version: 1.1.1
+- package: elementary-data/elementary
+  name: elementary
+  version: 0.22.1
+sha1_hash: 6e01cdd39606ca91db4dfe4652162a33eef2b5c2

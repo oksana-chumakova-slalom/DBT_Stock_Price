@@ -16,6 +16,7 @@ models:
         tests:
           - not_null
           - dbt_utils.accepted_range:
-              min_value: 0
-              inclusive: false
+              arguments: # Added for dbt Core 1.9+
+                min_value: 0
+                inclusive: false
               description: "The index value must be positive to prevent division errors."

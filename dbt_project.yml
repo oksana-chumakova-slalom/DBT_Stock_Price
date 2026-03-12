@@ -52,16 +52,12 @@ models:
       +database: SNOWFLAKE_LEARNING_DB 
       # dbt will now run this BEFORE building any staging models
       +pre-hook: "CALL snowflake_learning_db.dbt_ochumakova.generate_daily_prices_proc()"
-      # +schema: OC_SNOWFLOWPULSE
     intermediate:
       +materialized: table
       +database: SNOWFLAKE_LEARNING_DB 
-      # +schema: OC_SNOWFLOWPULSE
     fact:
       +materialized: table
       +database: SNOWFLAKE_LEARNING_DB
-      # +schema: OC_SNOWFLOWPULSE
     marts:
       +materialized: table
       +database: SNOWFLAKE_LEARNING_DB
-      # +schema: OC_SNOWFLOWPULSE

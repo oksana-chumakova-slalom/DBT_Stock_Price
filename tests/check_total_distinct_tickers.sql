@@ -14,6 +14,3 @@ from int_tickers
 join fact_tickers 
     -- This query returns a row (and fails) if the totals do not match
     on int_tickers.total_dist_ticker != fact_tickers.total_dist_ticker
-
-select max(trading_date)
-        from {{ ref('fct_stock_market_pulse') }}

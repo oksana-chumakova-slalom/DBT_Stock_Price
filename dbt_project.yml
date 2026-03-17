@@ -58,6 +58,3 @@ models:
     fact:
       +materialized: table
       +database: SNOWFLAKE_LEARNING_DB
-    marts:
-      +materialized: table
-      +database: SNOWFLAKE_LEARNING_DB
